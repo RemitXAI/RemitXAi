@@ -105,8 +105,9 @@ RemitX AI introduces a **voice + text AI assistant** that:
 
 ## 🧪 Demo
 
-> Add your demo video link here (Loom / YouTube)
 
+> Add your demo video link here (VERCEL / YouTube)
+remit-x-ai.vercel.app
 ---
 
 ## 📦 Installation
