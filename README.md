@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 RemitX AI
 
-## Getting Started
+> **Send money globally using just your voice or text.**
 
-First, run the development server:
+RemitX AI is a **multimodal AI-powered payment agent** that enables seamless cross-border transactions through natural conversation. Users can simply **type or speak commands**, and the system handles everything from intent understanding to payment execution.
+
+---
+
+## 🧩 Problem
+
+In West Africa, sending and receiving international payments is still frustrating, unreliable, and often inaccessible.
+
+Many users rely on platforms like PayPal, but face major limitations:
+
+❌ Receiving payments is restricted or unavailable in several countries
+❌ Accounts get limited or frozen without clear reasons
+❌ High fees and poor exchange rates reduce actual earnings
+❌ Complex workflows make it hard for non-technical users
+❌ Freelancers and builders struggle to get paid globally
+
+As a result, millions of users are forced to:
+
+Depend on middlemen
+Use risky workarounds
+Or lose access to global opportunities entirely
+
+---
+
+## 💡 Solution
+
+RemitX AI introduces a **voice + text AI assistant** that:
+
+* Understands natural language commands
+* Handles payments automatically
+* Removes the need to deal with wallet addresses directly
+
+---
+
+## ✨ Features
+
+* 🎤 **Voice & Text Interaction**
+  Send money by speaking or typing commands
+
+* 🤖 **AI Intent Parsing**
+  Converts natural language into structured financial actions
+
+* 💸 **Cross-Border Payments**
+  Simulated or powered via Stellar blockchain
+
+* 👤 **Saved Recipients**
+  Send money using names instead of wallet addresses
+
+* 🔊 **Voice Feedback**
+  AI responds with audio confirmations
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* Next.js
+* TypeScript
+* Tailwind CSS
+* ShadCN UI
+
+### Backend (Planned / In Progress)
+
+* NestJS
+* REST API
+
+### AI
+
+* OpenAI (for intent parsing)
+
+### Blockchain
+
+* Stellar (Testnet)
+
+---
+
+## 🔁 How It Works
+
+1. User speaks or types:
+
+   > “Send $50 to John”
+
+2. AI processes the request:
+
+   * Identifies intent
+   * Matches recipient
+
+3. If recipient exists:
+
+   * Confirms transaction
+
+4. If not:
+
+   * Requests wallet address
+   * Option to save recipient
+
+5. Executes payment and confirms
+
+---
+
+## 🧪 Demo
+
+> Add your demo video link here (Loom / YouTube)
+
+---
+
+## 📦 Installation
 
 ```bash
+git clone https://github.com/your-username/remitx-ai.git
+cd remitx-ai
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📌 Project Status
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🚧 In active development 
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 Vision
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To make global payments as simple as talking to an assistant — removing friction, complexity, and barriers to financial access.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🤝 Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributions, ideas, and feedback are welcome!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📄 License
+
+MIT License
