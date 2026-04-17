@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendPayment } from '@/lib/backend/payments';
+import { sendPayment as sendPaymentSync } from '@/lib/backend/payments';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = sendPayment(name, amount);
+    const result = sendPaymentSync(name, amount);
 
     if (!result.success) {
       return NextResponse.json(result, { status: 400 });
@@ -21,8 +21,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error) {
+    console.error('Payment error:', error);
     return NextResponse.json(
-      { error: 'Failed to send payment' },
+      { success: false, error: 'Failed to send payment' },
       { status: 500 }
     );
   }

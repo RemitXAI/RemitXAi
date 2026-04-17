@@ -43,20 +43,36 @@ function detectIntent(text: string): IntentResult {
   
   const convertMatch = lowerText.match(/convert\s+\$?(\d+)\s+(?:from\s+)?(\w+)?\s+(?:to\s+)?(\w+)/i);
   if (convertMatch) {
+    const toCurrencyRaw = convertMatch[3] || 'NGN';
+    let toCurrency = toCurrencyRaw;
+    if (['naira', 'nairas'].includes(toCurrencyRaw.toLowerCase())) {
+      toCurrency = 'NGN';
+    }
+    const fromCurrencyRaw = convertMatch[2] || 'USD';
+    let fromCurrency = fromCurrencyRaw;
+    if (['dollar', 'dollars', 'usd'].includes(fromCurrencyRaw.toLowerCase())) {
+      fromCurrency = 'USD';
+    }
     return {
       type: 'convert_currency',
       data: {
         amount: parseInt(convertMatch[1], 10),
-        fromCurrency: convertMatch[2] || 'USD',
-        toCurrency: convertMatch[3],
+        fromCurrency,
+        toCurrency,
       },
     };
   }
   
   const quickConvertMatch = lowerText.match(/(\w+)\s+to\s+(\w+)/i);
   if (quickConvertMatch) {
-    const from = quickConvertMatch[1].toUpperCase();
-    const to = quickConvertMatch[2].toUpperCase();
+    let from = quickConvertMatch[1].toUpperCase();
+    let to = quickConvertMatch[2].toUpperCase();
+    if (['naira', 'nairas'].includes(quickConvertMatch[2].toLowerCase())) {
+      to = 'NGN';
+    }
+    if (['dollar', 'dollars'].includes(quickConvertMatch[1].toLowerCase())) {
+      from = 'USD';
+    }
     if (from && to) {
       return {
         type: 'convert_currency',
@@ -172,6 +188,29 @@ export default function Home() {
     const interval = setInterval(fetchRates, 60000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const checkRateInsight = () => {
+      const currentNgnRate = exchangeRates['NGN'];
+      if (!currentNgnRate) return;
+      
+      const message = `The current naira rate is ${currentNgnRate} naira per dollar. This might be a good time to convert.`;
+      const insightMessage: Message = {
+        id: generateId(),
+        role: 'ai',
+        content: message,
+        timestamp: new Date(),
+        type: 'insight',
+      };
+      setMessages(prev => [...prev, insightMessage]);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.speak(new SpeechSynthesisUtterance(message));
+      }
+    };
+    
+    const rateInsightInterval = setInterval(checkRateInsight, 210000);
+    return () => clearInterval(rateInsightInterval);
+  }, [exchangeRates]);
 
   useEffect(() => {
     alertIntervalRef.current = setInterval(async () => {
@@ -617,7 +656,7 @@ export default function Home() {
           const response: Message = {
             id: generateId(),
             role: 'ai',
-            content: `I can't convert ${invalidCurrencies.join(', ')}. Supported currencies are: USD, NGN, EUR, GBP, JPY, XLM. Try 'Convert $100 USD to NGN'`,
+            content: `I can't convert ${invalidCurrencies.join(', ')}. Supported currencies are: USD, NGN (Naira), EUR, GBP, JPY, XLM. Try 'Convert $100 to Naira'`,
             timestamp: new Date(),
           };
           setMessages(prev => [...prev, response]);
