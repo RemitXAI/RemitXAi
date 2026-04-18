@@ -30,12 +30,22 @@ function generateId() {
 function detectIntent(text: string): IntentResult {
   const lowerText = text.toLowerCase();
   
-  const sendMatch = lowerText.match(/send\s+\$?(\d+)\s+(?:to\s+)?(\w+)/i);
+  const wordToNum: Record<string, number> = {
+    hundred: 100, fifty: 50, twenty: 20, thirty: 30, forty: 40,
+    sixty: 60, seventy: 70, eighty: 80, ninety: 90,
+    ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15,
+    sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19,
+  };
+  
+  const currencyWords = 'dollar|dollars|usd|us\\$|naira|nairas|ngn|euro|eur|pound|gbp';
+  const sendMatch = lowerText.match(new RegExp(`send\\s+\\$?(\\d+|hundred|fifty|twenty|thirty|forty|sixty|seventy|eighty|ninety|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)(?:\\s+(?:${currencyWords}))?(?:\\s+(?:to\\s+))?([a-z]+)`, 'i'));
   if (sendMatch) {
+    const amountStr = sendMatch[1];
+    const amount = wordToNum[amountStr] || parseInt(amountStr, 10);
     return {
       type: 'send_money',
       data: {
-        amount: parseInt(sendMatch[1], 10),
+        amount,
         recipient: sendMatch[2],
       },
     };
