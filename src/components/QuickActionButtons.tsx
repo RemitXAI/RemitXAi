@@ -10,11 +10,11 @@ interface QuickActionButtonsProps {
   onOpenRecipientModal?: () => void;
 }
 
+// Off-ramp and Add Bank remain in the codebase (backend and helpers),
+// but are hidden from the UI for now by only exposing the primary actions here.
 const actions = [
   { label: 'Send Money', command: 'Send money', icon: Send },
   { label: 'Convert Currency', command: 'Convert currency', icon: ArrowRightLeft },
-  { label: 'Off-ramp to Bank', command: 'Withdraw to bank', icon: Landmark },
-  { label: 'Add Bank', command: 'Add bank account', icon: Wallet },
   { label: 'Add Recipient', command: '', icon: Users, isModal: true },
 ];
 
@@ -42,12 +42,13 @@ export function QuickActionButtons({ onAction, isDarkMode, onOpenRecipientModal 
             }
           }}
           className={cn(
-            'flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap',
+            // make buttons evenly distribute: allow them to grow and center content
+            'basis-0 flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium min-w-0',
             'transition-all duration-200 gradient-bg text-white hover:shadow-lg hover:shadow-[#9B7EE9]/30'
           )}
         >
           <action.icon className="w-4 h-4" />
-          {action.label}
+          <span className="truncate">{action.label}</span>
         </motion.button>
       ))}
     </motion.div>

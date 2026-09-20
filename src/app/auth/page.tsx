@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, Check } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 type AuthMode = 'login' | 'signup';
 
@@ -18,7 +19,39 @@ export default function AuthPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && user) {
+      const t = setTimeout(() => router.push('/dashboard'), 900);
+      return () => clearTimeout(t);
+    }
+  }, [loading, user, router]);
+
+  // While auth is being checked, render nothing. Once signed-in, show a brief
+  // confirmation animation and then redirect to the dashboard.
+  if (!loading && user) {
+    return (
+      <div className={cn(
+        'min-h-screen flex items-center justify-center p-4',
+        'bg-gradient-to-br from-[#0B1220] via-[#1a2342] to-[#0B1220]'
+      )}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.35 }}
+          className={cn(
+            'w-full max-w-sm p-6 rounded-2xl border flex items-center gap-3 justify-center',
+            'bg-[#0B1220]/80 backdrop-blur-xl border-white/10'
+          )}
+        >
+          <Check className="w-6 h-6 text-emerald-400" />
+          <p className="text-white">Signed in — redirecting...</p>
+        </motion.div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
