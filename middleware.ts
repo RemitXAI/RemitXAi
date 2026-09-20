@@ -12,7 +12,9 @@ export async function middleware(request: NextRequest) {
       const { data: { session } } = await supabase.auth.getSession();
 
       if (!session) {
-        const loginUrl = new URL('/auth/login', request.url);
+        // redirect to the existing auth page (`/auth`). There is no
+        // `/auth/login` route in this app, which caused 404s on Vercel.
+        const loginUrl = new URL('/auth', request.url);
         loginUrl.searchParams.set('redirect', pathname);
         return NextResponse.redirect(loginUrl);
       }
